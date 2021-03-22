@@ -17,9 +17,9 @@ class Sales
             };
             $sql = "INSERT INTO " . $this->table . " (".join(",",$this->validFields) .") VALUES ( ". join(",",$bind) .")";
             $db->con->query($sql);
-            $message = 'Venda cadastrada com sucesso.';
         }catch(Exception $e){
-            $message = 'Não foi possível cadastrar esta venda.';
+            $this->message = $e->getMessage();
+            return false;
         }        
     }
 }
