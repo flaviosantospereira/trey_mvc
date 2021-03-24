@@ -1,6 +1,9 @@
 <?php 
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
+
+session_start()
+
 ?>
 
 <!DOCTYPE html>
@@ -20,6 +23,8 @@ ini_set("display_errors", 1);
 
 <!-- JS Mask -->
 <script src="/trey_mvc/libs/js/mask/dist/jquery.mask.min.js"></script>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 
     <meta charset="UTF-8">
@@ -54,7 +59,7 @@ ini_set("display_errors", 1);
           Vendas
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Lista de Vendas</a>
+          <a class="dropdown-item" href="/trey_mvc/home/vendas/lista.php">Lista de Vendas</a>
           <a class="dropdown-item" href="/trey_mvc/home/vendas/nova.php">Cadastrar Venda</a>        
         </div>
       </li>      

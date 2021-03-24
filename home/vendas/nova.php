@@ -10,14 +10,15 @@ $(document).ready(function(){
 });
 </script>
 
-<form method="POST" action="../../controllers/SalesController.php" >
+<form method="POST" action="./acoes.php" >
+<input type='hidden' name='action' value='insert'>
 <div class="container">
 <br><h2>Cadastrar Nova Venda</h2><br>
     <div class="row">
         <div class="col-4">
-        <label for="salesman_name">Vendedor:</label> 
-        <select class="form-control">
-            <option value="" name="salesman_name">Selecione</option>
+        <label for="salesman_id">Vendedor:</label> 
+        <select class="form-control" name="salesman_id">
+            <option value="">Selecione</option>
             <?php foreach($list as $l){ ?>
                 <option value="<?= $l['salesman_id'] ?>"><?=$l['salesman_name'] ?></option><?php } ?>
         </select>
@@ -29,7 +30,7 @@ $(document).ready(function(){
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="rs">R$</span>
                     </div>
-                    <input type="text" class="form-control" id="sale_value" aria-describedby="rs">
+                    <input type="text" class="form-control" id="sale_value" name="sale_value" aria-describedby="rs">
                 </div>
             </div>
         </div>    
@@ -37,7 +38,7 @@ $(document).ready(function(){
             <div class="form-group">
                 <label for="sale_date">Data da Venda:</label>
                 <div class="input-group mb-3">
-                    <input type="date" class="form-control" id="sale_date">
+                    <input type="date" class="form-control" id="sale_date" name="sale_date">
                 </div>
             </div>
         </div>                     

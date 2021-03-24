@@ -12,6 +12,7 @@ $list = $salesman->listAll();?>
         <th>Cadastro</th>
         <th>Nome</th>
         <th>Email</th>
+        <th>Vendas</th>
       </tr>
     </thead>
     <tbody>
@@ -20,6 +21,7 @@ $list = $salesman->listAll();?>
                 <td><?= $l['salesman_id']?></td> 
                 <td><?=$l['salesman_name']?></td>
                 <td><?=$l['salesman_email']?></td>    
+                <td><span class="material-icons">addchart</span></td>
             </tr>
         <?php } ?>
     </tbody>
