@@ -2,7 +2,13 @@ O padrão dos paths se encontram como:
 
 http://localhost/trey_mvc/
 
+----------------------------------------------------------------------------
 
+Email:
+
+Habilitar acesso de apps menos seguros a conta que será utilizada para teste.
+Configurar usuário de email e senha que será utilizado em trey_mvc/mail/mail.php
+Configurar crontable para manipular a data e hora.
 
 ----------------------------------------------------------------------------
 

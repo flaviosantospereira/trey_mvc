@@ -2,13 +2,13 @@
 require_once realpath(__DIR__) . "/../models/Sales.php";
 
 $sales = new Sales();
-$list = $sales->salesList();
+$list = $sales->dailySales();
 $total = 0;
+$today = date('d-m-Y');
 if ($list){
 ?>
-
 <div class="container">
-<br><h2>Vendas do Dia</h2><br>
+<br><h2>Vendas do Dia <?=$today?></h2><br>
   <table class="table">
     <thead>
       <tr>

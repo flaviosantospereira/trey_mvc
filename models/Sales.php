@@ -80,4 +80,19 @@ class Sales extends BaseModel
             return false;
         }
     }    
+    public function dailySales()
+    {
+        $today = date('Y-m-d');
+        $db = new Database();
+        try{
+            $sql = "SELECT sale_id, sales.salesman_id, salesman_name, salesman_email, sale_value, sale_date FROM sales inner join salesman on sales.salesman_id = salesman.salesman_id";
+            $sql .= " WHERE sales.active = 'yes' AND sales.sale_date = '".$today."'";
+            $sql .= " ORDER BY sale_date DESC";           
+            $res = $db->con->query($sql);
+            return $res;
+        }catch(Exception $e){
+            $this->message = $e->getMessage();
+            return false;
+        }
+    }     
 }
