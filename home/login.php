@@ -28,9 +28,9 @@
 <body>
 
 <div class="login-form">
-    <form action="acoes.php" method="post">
+    <form action="acoes.php" method="POST">
     <input type='hidden' name='action' value='login'>
-        <h2 class="text-center">Log in</h2>       
+        <h2 class="text-center"><img src="http://localhost/trey_mvc/includes/images/tray-logo.svg" alt="Tray Logo"></h2>       
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Usuário" required="required" name='user_email'>
         </div>

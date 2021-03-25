@@ -13,6 +13,8 @@ $list = $salesman->listAll();?>
         <th>Nome</th>
         <th>Email</th>
         <th>Vendas</th>
+        <th>Atualizar</th>
+        <th>Deletar</th>        
       </tr>
     </thead>
     <tbody>
@@ -22,6 +24,8 @@ $list = $salesman->listAll();?>
                 <td><?=$l['salesman_name']?></td>
                 <td><?=$l['salesman_email']?></td>    
                 <td><span class="material-icons">addchart</span></td>
+                <td><span class="material-icons">update</span></td>
+                <td><span class="material-icons">clear</span></td>                
             </tr>
         <?php } ?>
     </tbody>

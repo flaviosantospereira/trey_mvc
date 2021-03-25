@@ -3,7 +3,7 @@ error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
 //die(realpath(__DIR__));
-require_once realpath(__DIR__) . "/../../models/Sales.php";
+require_once realpath(__DIR__) . "/../../models/Salesman.php";
 require_once realpath(__DIR__) . "/../../database/Database.php";
 require_once realpath(__DIR__) . "/../../session/Session.php";
 

@@ -1,8 +1,9 @@
 <?php
 
 require_once realpath(__DIR__) . "/../database/Database.php";
+require_once realpath(__DIR__) . "/../models/BaseModel.php";
 
-class Salesman
+class Salesman extends BaseModel
 {
     protected $table = 'salesmen';
     protected $primaryKey = 'salesman_id';
