@@ -50,7 +50,7 @@ if($_SERVER['SCRIPT_NAME'] != "/trey_mvc/home/login.php" && $_SERVER['SCRIPT_NAM
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
 <ul class="navbar-nav mr-auto">
   <li class="nav-item active">
-    <a class="nav-link" href="/trey_mvc/home">Home <span class="sr-only">(current)</span></a>
+    <a class="nav-link" href="/trey_mvc/home/home.php">Home <span class="sr-only">(current)</span></a>
   </li>
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -73,8 +73,8 @@ if($_SERVER['SCRIPT_NAME'] != "/trey_mvc/home/login.php" && $_SERVER['SCRIPT_NAM
 </ul>
 <ul class="navbar-nav">
 <li class="nav-item dropdown float-right">
-  <a class="nav-link dropdown-toggle text-light" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-    <strong><?= Session::get('user_name') ?></strong>
+  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <?= Session::get('user_name') ?>
   </a>
   <div class="dropdown-menu" style="margin-right:50%" aria-labelledby="navbarDropdown">
     <div class="dropdown-divider"></div>

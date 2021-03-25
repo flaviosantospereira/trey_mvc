@@ -2,7 +2,7 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
-//die(realpath(__DIR__));
+//die(realpath(_DIR_));
 require_once realpath(__DIR__) . "/../../models/Salesman.php";
 require_once realpath(__DIR__) . "/../../database/Database.php";
 require_once realpath(__DIR__) . "/../../session/Session.php";
@@ -13,11 +13,7 @@ $validActions = ['insert','delete','update'];
 
         $method = $_SERVER['REQUEST_METHOD'];
         if($method != "POST"){
-
-            //echo "metodo invalido";
-            echo '<pre>';
-            var_dump($_SERVER);
-            echo '</pre>';
+            
             $message = 'Método inválido!';
             Session::setMessage($message,'danger');
             exit(400);
@@ -29,18 +25,62 @@ $validActions = ['insert','delete','update'];
             exit(400);
         }
         if($action == 'insert'){
-            array_shift($_POST);
-            $sales = new Sales;       
-            $sales->insert($_POST);
-            $message = 'Venda cadastrada com sucesso!';
-            Session::setMessage($message,'success');              
+            $salesman = new Salesman;       
+            if($salesman->insert($_POST)){
+                $message = 'Vendedor cadastrado com sucesso!';
+                Session::setMessage($message,'success');              
+                Session::redirect("/home/vendedores/lista.php");
+                exit();
+            }
+            Session::setMessage($salesman->message,'danger');              
             header("location: ".$_SERVER['HTTP_REFERER']);
+            exit();
+
         }
         if($action == 'delete'){
-            Session::redirect('home/vendas/lista.php',['message'=>'Venda deletada!','type'=>'success']);
-            //deleta 
+
+            header('Content-Type: application/json');
+
+            if(!isset($_POST['id']) || $_POST['id'] == ""){
+                echo json_encode([
+                    'status' => 'error'
+                ]);
+                exit();
+            }
+            $id = $_POST['id'];
+            $salesman = new Salesman;       
+            if($salesman->delete($id)){
+                Session::setMessage('Vendedor deletado com sucesso.','success');
+                echo json_encode([
+                    'status' => 'ok'
+                ]);
+                exit();
+            }
+
         }
         if($action == 'update'){
-            //faz update n oresgistro
+
+            if(!isset($_GET['salesman_id']) || $_GET['salesman_id'] == ""){
+                Session::setMessage('Vendedor não encontrado.','warning');
+                Session::redirect('/home/vendedores/lista.php');
+                exit();
+            }
+
+                $salesman = new Salesman;       
+                $id = $_GET['salesman_id'];
+                if(!$salesman->read($id)){
+                    Session::setMessage('Vendedor não encontrado.','warning');
+                    Session::redirect('/home/vendedores/lista.php');
+                    exit();
+            }
+            if($salesman->update($id,$_POST)){
+                $message = 'Vendedor atualizado com sucesso!';
+                Session::setMessage($message,'success');              
+                Session::redirect("/home/vendedores/lista.php");
+                exit();
+            }
+            Session::setMessage($salesman->message,'danger');              
+            header("location: ".$_SERVER['HTTP_REFERER']);
+            exit();
         }
 ?>

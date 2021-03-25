@@ -8,38 +8,36 @@ class BaseModel{
 
     public function read($id)
     {
-        // Veriica se é numero
         if(!is_numeric($id)){
             return false;
         }
         $db = new Database(); 
         $preparedPk = ":".$this->primaryKey;
-        $stmt = $db->con->prepare("SELECT * FROM " . $this->table . " WHERE " . $this->primaryKey . " = " . $preparedPk); //Seleciona tudo
+        $stmt = $db->con->prepare("SELECT * FROM " . $this->table . " WHERE " . $this->primaryKey . " = " . $preparedPk); 
         $stmt->execute([
             $preparedPk => $id
         ]);
-        if($stmt->rowCount() == 0){ // Se for 0 quer dizer que não existe o registro
+        if($stmt->rowCount() == 0){ 
             return false;
         } 
-        //caso passe faz o fetch e traz tudo da tabela no return
         return $stmt->fetch();        
     }
 
     public function insert($request)
     {
+
         $request = $this->cleanArray($request);
-        $cleanArr = $this->validFields; //Passa os valores do valid array para um array comum
-        array_push($cleanArr,'created_by','created_at'); //Adiciona os campos default de criação ao array antes de prepara-lo
-        $preparedArr = $this->prepare($cleanArr); // Chamda o método para "preparar" os campos da tabela, ou seja apenas coloca um : antes do campo para transforma-lo em variavel do PDO
+        $cleanArr = $this->validFields; 
+        array_push($cleanArr,'created_by','created_at','active'); 
+        $preparedArr = $this->prepare($cleanArr); 
 
-        $request['created_at'] = date('Y-m-d H:i:s'); //Seta manualmente o horario em que foi criado no banco
-        $request['created_by'] = Session::get('user_id'); //Esse vlaor poder ser comentado mas o ideal é que pegasse da sessão quem criou o item no banco
-
-        $sql = "INSERT INTO ".$this->table." (".join(',',$cleanArr).") VALUES (".join(',',$preparedArr).")"; //Junta as colunas válidas da model e no insert chama as colunas "preparadas"
-
+        $request['created_at'] = date('Y-m-d H:i:s'); 
+        $request['created_by'] = Session::get('user_id'); 
+        $request['active'] = 'yes';
+        $sql = "INSERT INTO ".$this->table." (".join(',',$cleanArr).") VALUES (".join(',',$preparedArr).")"; 
         $db = new Database();
-        $stmt = $db->con->prepare($sql); //Usa o método prepare do PDO
-        $stmt->execute($request); // Executa com a request que seria a variavel $_POST
+        $stmt = $db->con->prepare($sql); 
+        $stmt->execute($request); 
         if($stmt->rowCount() > 0){
             return true;
         }        
@@ -47,7 +45,6 @@ class BaseModel{
     }
     public function update($id,$request)
     {
-        // Primeiro verifica se o registro existe e se é um numero;
         if(!is_numeric($id)){
             return false;
         }
@@ -61,17 +58,18 @@ class BaseModel{
             return false;
         } 
         
-        $request = $this->cleanArray($request); //Limpa os campos pegando só o que for da classe
-        $cleanArr = $this->validFields; //pega os campos validos
-        array_push($cleanArr,'updated_by','updated_at'); //adiciona os campos padroes de update
-        $preparedArr = $this->prepare($cleanArr); //prepara o aray com os : antes do campo
-        $values = $this->prepareForUpdate($cleanArr,$preparedArr); //Prepara para o update colocand oos campos da forma campo = :campo
-        $request['updated_by'] = 1; //chama o usuario da sessão aqui; 
-        $request['updated_at'] = date('Y-m-d H:i:s'); // Adiciona os campos padroes do update na request
-        $request[$this->primaryKey] = $id; // Adiciona o PK para ser alterado
-        $sql = "UPDATE " . $this->table . " SET " . join(" , ",$values) . " WHERE " . $this->primaryKey = $preparedPk;
+        $request = $this->cleanArray($request); 
+        $cleanArr = $this->validFields; 
+        array_push($cleanArr,'updated_by','updated_at'); 
+        $preparedArr = $this->prepare($cleanArr); 
+        $values = $this->prepareForUpdate($cleanArr,$preparedArr); 
+        $request['updated_by'] = 1; 
+        $request['updated_at'] = date('Y-m-d H:i:s'); 
+        $request[$this->primaryKey] = $id; 
+        $sql = "UPDATE " . $this->table . " SET " . join(" , ",$values) . " WHERE " . $this->primaryKey . ' = ' . $preparedPk;
         $stmt = $db->con->prepare($sql);
         $stmt->execute($request);
+   
         if($stmt->rowCount() == 1){
             return true;
         }
@@ -93,8 +91,6 @@ class BaseModel{
     }
     public function delete($id)
     {
-        //verifica se é numeric e se existe
-    // Primeiro verifica se o registro existe e se é um numero;
     $preparedPk = ":".$this->primaryKey;
     if(!is_numeric($id)){
         return false;
@@ -109,7 +105,7 @@ class BaseModel{
         return false;
     } 
 
-    $sql = "UPDATE " . $this->table . " SET " . self::ACTIVE . " = 'no' WHERE " . $this->primarKey . " = " . $preparedPk; 
+    $sql = "UPDATE " . $this->table . " SET " . self::ACTIVE . " = 'no' WHERE " . $this->primaryKey . " = " . $preparedPk; 
     $stmt = $db->con->prepare($sql);
     $stmt->execute([
         $preparedPk => $id

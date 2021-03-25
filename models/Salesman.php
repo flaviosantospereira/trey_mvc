@@ -5,39 +5,53 @@ require_once realpath(__DIR__) . "/../models/BaseModel.php";
 
 class Salesman extends BaseModel
 {
-    protected $table = 'salesmen';
+    protected $table = 'salesman';
     protected $primaryKey = 'salesman_id';
-    protected $validFields = ['salesman_email'];
-    public string $message;
+    protected $validFields = ['salesman_email','salesman_name'];
+    public $message;
 
-    public function store($request)
+
+    public function insert($request)
     {
-        $db = new Database();
-        try{
-            $bind = [];
-            foreach($this->validFields as $value){
-                $bind[":".$value];
-            };
-            $sql = "INSERT INTO " . $this->table . " (".join(",",$this->validFields) .") VALUES ( ". join(",",$bind) .")";
-            $db->con->query($sql);
-        }catch(Exception $e){
-            $this->message = $e->getMessage();
+        if(!isset($request['salesman_name']) || $request['salesman_name'] == ""){
+            $this->message ='O campo "nome" é obrigatório';
             return false;
-        }        
-    }    
+        }
+
+        if(!isset($request['salesman_email']) || $request['salesman_email'] == "" || !filter_var($request['salesman_email'],FILTER_VALIDATE_EMAIL)){
+            $this->message = 'O campo "e-mail" é inválido ou está vazio.';
+            return false;
+        }
+       return parent::insert($request);
+
+    }
+
+    public function update($id,$request)
+    {
+        if(!isset($request['salesman_name']) || $request['salesman_name'] == ""){
+            $this->message ='O campo "nome" é obrigatório';
+            return false;
+        }
+
+        if(!isset($request['salesman_email']) || $request['salesman_email'] == "" || !filter_var($request['salesman_email'],FILTER_VALIDATE_EMAIL)){
+            $this->message = 'O campo "e-mail" é inválido ou está vazio.';
+            return false;
+        }
+       return parent::update($id,$request);
+    }
+
     public function list($request)
     {
         $db = new Database();
         try{
             $sql = "SELECT * FROM ". $this->table;
-            $where = []; // where é um array vazio;
-            if(isset($request['campo1']) && $request['campo1'] != ""){ // se o campo enviado no $_GET existir e NÃO for vazio ele inclui no array
-                array_push($where,"campo1 = '".$request['campo1']."'"); // "empurra" o valor no array de where como se fosse no SQL
+            $where = []; 
+            if(isset($request['campo1']) && $request['campo1'] != ""){ 
+                array_push($where,"campo1 = '".$request['campo1']."'"); 
             }
-            if(count($where) > 0) { //se o tamanho do where for maior que 0, ou seja existe algo nele, ele junta o array com "AND"
+            if(count($where) > 0) { 
                 $where = join(" AND ",$where);
-                $sql . " WHERE " . $where; // assim o where fica SELECT * FROM table WHERE campo1 = 'valor' AND campo2 = 10
-                                        // Se só tiver 1 valor no array por exemplo, ele não coloca o AND
+                $sql . " WHERE " . $where;
             }
             $res = $db->con->query($sql);
             return $res;
@@ -50,9 +64,11 @@ class Salesman extends BaseModel
     {
         $db = new Database();
         try{
-            $sql = "SELECT * FROM ". $this->table;
-            $res = $db->con->query($sql);
-            return $res;
+            $sql = "SELECT * FROM ". $this->table . " WHERE active = 'yes'";
+            $res = $db->con->prepare($sql);
+            $res->execute();
+
+            return $res->fetchAll();
         }catch(Exception $e){
             $this->message = $e->getMessage();
             return false;

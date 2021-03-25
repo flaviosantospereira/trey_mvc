@@ -16,7 +16,7 @@ $(document).ready(function(){
 <br><h2>Cadastrar Nova Venda</h2><br>
     <div class="row">
         <div class="col-4">
-        <label for="salesman_id">Vendedor:</label> 
+        <label for="salesman_id">Vendedor</label> 
         <select class="form-control" name="salesman_id">
             <option value="">Selecione</option>
             <?php foreach($list as $l){ ?>
@@ -25,7 +25,7 @@ $(document).ready(function(){
         </div>    
         <div class="col-4">
             <div class="form-group">
-                <label for="sale_value">Valor da Venda:</label>
+                <label for="sale_value">Valor da Venda</label>
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="rs">R$</span>
@@ -36,7 +36,7 @@ $(document).ready(function(){
         </div>    
         <div class="col-4">
             <div class="form-group">
-                <label for="sale_date">Data da Venda:</label>
+                <label for="sale_date">Data da Venda</label>
                 <div class="input-group mb-3">
                     <input type="date" class="form-control" id="sale_date" name="sale_date">
                 </div>

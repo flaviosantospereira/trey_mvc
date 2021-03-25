@@ -8,7 +8,7 @@ class Users extends BaseModel
     protected $table = 'users';
     protected $primaryKey = 'user_id';
     protected $validFields = ['user_name','user_email','user_password','user_role'];
-    public string $message;
+    public $message;
       
         public function createUser(array $request)
         {
@@ -19,11 +19,11 @@ class Users extends BaseModel
             }             
             $db = new Database();
 
-            $stmt = $db->con->prepare("SELECT user_email FROM " . $this->table . " WHERE user_email = :user_email"); //primeiro faz um select no email que o usuario que criar para verificar se já existe
+            $stmt = $db->con->prepare("SELECT user_email FROM " . $this->table . " WHERE user_email = :user_email");
             $stmt->execute([
                 ':user_email' => $request['user_email']
             ]);
-            if($stmt->rowCount() > 0){ //Caso tenha um email, então o usuario não pode criar na base
+            if($stmt->rowCount() > 0){ 
                 $this->message = sprintf("O e-mail %s já esta em uso",$request['user_email']);
                 Session::setMessage($this->message,'danger');
                 return false;
